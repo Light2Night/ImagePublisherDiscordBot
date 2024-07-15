@@ -1,0 +1,11 @@
+services:
+
+  bot:
+    container_name: image-publisher-discord-bot-container
+    image: light2night/image-publisher-discord-bot
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./volumes/bot:/app/DataAndConfigurations

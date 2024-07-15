@@ -1,0 +1,1 @@
+docker push light2night/image-publisher-discord-bot:latest

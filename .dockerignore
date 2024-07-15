@@ -1,0 +1,13 @@
+# GIT files
+/.git/
+
+# IDEs files
+/.vs/
+/.idea/
+
+# Build files
+/Bot/bin/
+/Bot/obj/
+
+# Docker volumes
+/volumes/
