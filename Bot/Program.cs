@@ -19,7 +19,7 @@ var logger = new SimpleLogger(logPath);
 logger.Info("The program has been launched");
 
 if (!File.Exists(configurationsPath)) {
-	var defaultSettings = new AppConfigurations("", 10, "Images", true);
+	var defaultSettings = new AppConfigurations("", 0, 10, "Images", true);
 	var json = JsonConvert.SerializeObject(defaultSettings, Formatting.Indented);
 	File.WriteAllText(configurationsPath, json);
 
@@ -97,6 +97,9 @@ catch (NoImagesToPost e) {
 	logger.Info(e.Message);
 	return;
 }
+catch (Exception e) {
+	logger.Critical($"Expected error: {e}");
+}
 
 
 
@@ -112,6 +115,10 @@ async Task PublishAsync() {
 }
 
 async Task SendImageAsync(string imageName) {
+	var channel = (IMessageChannel)await client.GetChannelAsync(configurations.ChannelIdForPublish);
+
+	await channel.SendFileAsync(imageName);
+
 	await logger.InfoAsync($"Image {imageName} published");
 }
 
