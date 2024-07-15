@@ -1,5 +1,8 @@
 ﻿using Bot;
+using Discord;
+using Discord.WebSocket;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 string programDir = Directory.GetCurrentDirectory();
 string dataDir = Path.Combine(programDir, "DataAndConfigurations");
@@ -34,8 +37,21 @@ try {
 }
 catch (NullReferenceException e) {
 	logger.Error(e.Message);
+	return;
 }
 catch (JsonSerializationException e) {
 	logger.Error($"appsettings.json is invalid: {e.Message}");
+	return;
 }
+
+using var client = new DiscordSocketClient(
+		new DiscordSocketConfig {
+			GatewayIntents = GatewayIntents.All
+		}
+);
+
+client.Log += async message => await logger.DiscordAsync(message.ToString());
+
+await client.LoginAsync(TokenType.Bot, configurations.BotToken);
+await client.StartAsync();
 
