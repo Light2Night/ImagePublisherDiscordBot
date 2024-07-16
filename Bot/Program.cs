@@ -73,7 +73,7 @@ images = images.Where(i => !publishedImages.Contains(i)).ToHashSet();
 
 using var client = new DiscordSocketClient(
 	new DiscordSocketConfig {
-		GatewayIntents = GatewayIntents.All
+		GatewayIntents = GatewayIntents.DirectMessages
 	}
 );
 
